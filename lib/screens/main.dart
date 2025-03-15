@@ -2,9 +2,9 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:math';
 
+import 'package:ambient_light/ambient_light.dart';
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
-import 'package:light_sensor/light_sensor.dart';
 import 'package:mobile/constants/language.dart';
 import 'package:mobile/screens/start.dart';
 import 'package:noise_meter/noise_meter.dart';
@@ -48,6 +48,7 @@ class _MainScreenState extends State<MainScreen> {
   double _accelerationSum = 0.0;
   double _decibelSum = 0.0;
   AudioPlayer? audioPlayer;
+  final AmbientLight _ambientLight = AmbientLight(frontCamera: true);
 
   Future<bool> checkPermission() async => await Permission.microphone.isGranted;
 
@@ -281,7 +282,7 @@ class _MainScreenState extends State<MainScreen> {
   }
 
   void startLuxListening() {
-    _lightSubscription = LightSensor.luxStream().listen((luxValue) {
+    _lightSubscription = _ambientLight.ambientLightStream.listen((luxValue) {
       setState(() {
         if (luxValue >= 600 && luxValue < 900) {
           updateScore(3, AlarmStatus.weakLight);
