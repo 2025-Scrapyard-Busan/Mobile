@@ -19,7 +19,7 @@ class _MainScreenState extends State<MainScreen> {
   NoiseReading? _latestReading;
   NoiseMeter? noiseMeter;
   int? _lux;
-  bool _isShaking = false; // 흔들기 감지 상태
+  bool _isShaking = false; // 흔들기 감지 상태maxDecibel
   StreamSubscription<NoiseReading>? _noiseSubscription;
   StreamSubscription? _lightSubscription;
   StreamSubscription? _accelerometerSubscription;
@@ -66,7 +66,7 @@ class _MainScreenState extends State<MainScreen> {
   }
 
   void startShakeDetection() {
-    const double shakeThreshold = 15.0;
+    const double shakeThreshold = 30.0;
     _accelerometerSubscription = accelerometerEventStream().listen((
       AccelerometerEvent event,
     ) {
@@ -102,7 +102,6 @@ class _MainScreenState extends State<MainScreen> {
         child: Column(
           children: [
             Text('Noise: ${_latestReading?.meanDecibel.toStringAsFixed(2)} dB'),
-            Text('Max: ${_latestReading?.maxDecibel.toStringAsFixed(2)} dB'),
             Text('Lux : $_lux lux'),
             Text(_isShaking ? 'Shaking' : "Shake it"),
           ],

@@ -4,7 +4,7 @@
     <uses-permission android:name="android.permission.BODY_SENSORS"/>
     <uses-feature android:name="android.hardware.sensor.light"/>
     <application
-        android:label="mobile"
+        android:label="Wake Up"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity
