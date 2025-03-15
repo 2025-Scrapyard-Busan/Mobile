@@ -55,7 +55,7 @@ jobs:
         run: flutter pub get
 
       - name: Build iOS (Release)
-        run: flutter build ipa --release
+        run: flutter build ipa --release --no-codesign
 
       - name: Check if IPA exists
         run: |
