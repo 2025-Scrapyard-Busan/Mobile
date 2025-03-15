@@ -30,6 +30,13 @@ jobs:
       - name: Build APK (Android)
         run: flutter build apk --release
 
+      - name: Upload APK to Artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: android-release-apk
+          path: build/app/outputs/flutter-apk/app-release.apk
+
+
   # iOS 빌드 (macOS 환경)
   ios-build:
     runs-on: macos-latest  # macOS 환경에서 실행
@@ -50,3 +57,8 @@ jobs:
 
       - name: Build iOS (Release)
         run: flutter build ios --release --no-codesign
+      - name: Upload IPA to Artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: ios-release-ipa
+          path: build/ios/ipa/*.ipa
