@@ -10,6 +10,11 @@ class Routes {
             settings: routeSettings,
             builder: (_) => MainScreen(),
           );
+        case StartScreen.route:
+          return MaterialPageRoute(
+            settings: routeSettings,
+            builder: (_) => StartScreen(),
+          );
         default:
           return errorRoute(routeSettings);
       }
