@@ -14,7 +14,7 @@ jobs:
     runs-on: ubuntu-latest  # Ubuntu 환경에서 실행
     strategy:
       matrix:
-        flutter-version: ['3.29.0']  # 사용할 Flutter 버전
+        flutter-version: ['3.7.0']  # 사용할 Flutter 버전
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
@@ -22,7 +22,7 @@ jobs:
       - name: Set up Flutter
         uses: subosito/flutter-action@v2
         with:
-          flutter-version: '3.29.0'
+          flutter-version: '3.7.0'
 
       - name: Install dependencies
         run: flutter pub get
@@ -35,7 +35,7 @@ jobs:
     runs-on: macos-latest  # macOS 환경에서 실행
     strategy:
       matrix:
-        flutter-version: ['3.29.0']  # 사용할 Flutter 버전
+        flutter-version: ['3.7.0']  # 사용할 Flutter 버전
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
@@ -43,7 +43,7 @@ jobs:
       - name: Set up Flutter
         uses: subosito/flutter-action@v2
         with:
-          flutter-version: '3.29.0'
+          flutter-version: '3.7.0'
 
       - name: Install dependencies
         run: flutter pub get
