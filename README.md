@@ -28,6 +28,6 @@ Wake Up을 깨우기 위해 3가지 요소를 쓸 수 있어요.
 
 당신이 할 수 있는 모든 행동을 동원해 Wake Up을 깨워주세요.
 
-## Download
+## Download Wake Up
 
 https://drive.google.com/drive/folders/1EGL3Q6oK0x-35lgVgV8SbTRb_Ftl_NNu?usp=sharing
