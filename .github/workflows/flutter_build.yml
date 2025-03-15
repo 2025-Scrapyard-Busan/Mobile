@@ -38,11 +38,11 @@ jobs:
 
 
   # iOS 빌드 (macOS 환경)
-  ios-build:
-    runs-on: macos-latest  # macOS 환경에서 실행
+   ios-build:
+    runs-on: macos-latest
     strategy:
       matrix:
-        flutter-version: ['3.29.0']  # 사용할 Flutter 버전
+        flutter-version: ['3.29.0']
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
@@ -55,8 +55,15 @@ jobs:
       - name: Install dependencies
         run: flutter pub get
 
-      - name: Build iOS (Release)
+      - name: Build iOS (Archive)
         run: flutter build ipa --release --no-codesign
+
+      - name: Export IPA
+        run: |
+          xcodebuild -exportArchive \
+            -archivePath build/ios/archive/Runner.xcarchive \
+            -exportPath build/ios/archive/ \
+            -exportOptionsPlist ios/exportOptions.plist
 
       - name: Check if IPA exists
         run: |
@@ -66,7 +73,7 @@ jobs:
           fi
 
       - name: Upload IPA to Artifacts
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v2
         with:
           name: ios-release-ipa
           path: build/ios/archive/Runner.ipa
