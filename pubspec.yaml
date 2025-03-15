@@ -40,6 +40,7 @@ dependencies:
   sensors_plus: ^6.1.1
   http: ^1.3.0
   convert: ^3.1.2
+  audioplayers: ^6.4.0
 
 dev_dependencies:
   flutter_test:
@@ -122,3 +123,5 @@ flutter:
     - assets/images/weak_light.png
     - assets/images/strong_light.png
     - assets/images/complete.png
+    - assets/images/fail.png
+    - assets/audios/alarm.mp3

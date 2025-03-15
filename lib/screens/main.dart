@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:math';
 
+import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:light_sensor/light_sensor.dart';
 import 'package:mobile/constants/language.dart';
@@ -19,6 +20,7 @@ enum AlarmStatus {
   weakLight,
   strongLight,
   complete,
+  fail,
 }
 
 class MainScreen extends StatefulWidget {
@@ -45,6 +47,7 @@ class _MainScreenState extends State<MainScreen> {
   double _luxSum = 0.0;
   double _accelerationSum = 0.0;
   double _decibelSum = 0.0;
+  AudioPlayer? audioPlayer;
 
   Future<bool> checkPermission() async => await Permission.microphone.isGranted;
 
@@ -60,7 +63,7 @@ class _MainScreenState extends State<MainScreen> {
         if (_milliseconds >= 60000) {
           // 60초 == 60000ms
           stopAllListening();
-          print('실패');
+          _alarmStatus = AlarmStatus.fail;
         }
       });
     });
@@ -72,6 +75,7 @@ class _MainScreenState extends State<MainScreen> {
     _accelerometerSubscription?.cancel();
     _lightSubscription?.cancel();
     _timer.cancel();
+    audioPlayer?.stop();
     super.dispose();
   }
 
@@ -127,7 +131,13 @@ class _MainScreenState extends State<MainScreen> {
     });
   }
 
-  void showCompleteDialog() {
+  void showCompleteDialog() async {
+    audioPlayer = AudioPlayer();
+    await audioPlayer?.play(
+      AssetSource("audios/alarm.mp3"),
+      volume: 30.0,
+      position: Durations.medium1,
+    );
     WidgetsBinding.instance.addPostFrameCallback((_) {
       TextEditingController nameController = TextEditingController();
       showDialog(
@@ -250,7 +260,6 @@ class _MainScreenState extends State<MainScreen> {
   }
 
   void onError(Object error) {
-    print(error);
     stopAllListening();
   }
 
@@ -360,6 +369,13 @@ class _MainScreenState extends State<MainScreen> {
         imagePath = "assets/images/complete.png";
         _message = null;
         break;
+      case AlarmStatus.fail:
+        imagePath = "assets/images/fail.png";
+        _message =
+            language == Language.korean
+                ? "왜 나 안깨워줬어어어..ㅠㅜ 늦었자나아.."
+                : "Why didn't you wake me up... :( I'm late now...";
+        break;
     }
 
     return Scaffold(
@@ -399,6 +415,21 @@ class _MainScreenState extends State<MainScreen> {
             if (_message == null) ...[SizedBox(height: 120)],
             SizedBox(height: 10),
             Image.asset(imagePath, height: 340, width: 340),
+            SizedBox(height: 30),
+            (() {
+              if (_alarmStatus == AlarmStatus.fail) {
+                return ElevatedButton(
+                  onPressed: () {
+                    Navigator.pushNamed(context, StartScreen.route);
+                  },
+                  child: Text(
+                    language == Language.korean ? "돌아가기" : "Go backr",
+                  ),
+                );
+              } else {
+                return SizedBox(width: 0, height: 0);
+              }
+            })(),
           ],
         ),
       ),
